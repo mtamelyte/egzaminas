@@ -1,3 +1,4 @@
-*.txt
-*.o
-*.exe
+build
+cmake-build-debug
+
+main.exe

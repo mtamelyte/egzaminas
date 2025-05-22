@@ -1,9 +1,25 @@
-#include <bits/stdc++.h>
+// #include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <locale>
+#include <fstream>
+#include <map>
+#include <sstream>
+
+bool zodziu_tikrinimas(char simbolis){
+    std::string tinkami="aąbcčdeęėfghiyįjklmnoprsštuųūvzžAĄBCČDEĘĖFGHIĮYJKLMNOPRSŠTUŲŪVZŽ";
+    for(auto c : tinkami){
+        if(simbolis==c) return true;
+    }
+    return false;
+}
 
 int main()
 {
-    std::setlocale(LC_ALL, "Lithuanian");
-
+    std::locale::global(std::locale("lt_LT.UTF-8")); // Use system default locale
+    std::ofstream out("tavomama.txt");
+    out.imbue(std::locale());       // Apply locale to std::cout
     std::map<std::string, int> zodziai{};
 
     std::ifstream fin;
@@ -19,7 +35,7 @@ int main()
         std::string pataisytasZodis;
         for (char c : zodis)
         {
-            if (!ispunct(c)&&!isdigit(c))
+            if (zodziu_tikrinimas(c))
             {
                 pataisytasZodis += tolower(c);
             }
@@ -35,6 +51,6 @@ int main()
     for (auto z : zodziai)
     {
         if (z.second > 1)
-            std::cout << z.first << " " << z.second << std::endl;
+            out << z.first << " " << z.second << std::endl;
     }
 }
