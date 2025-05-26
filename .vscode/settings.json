@@ -115,6 +115,7 @@
     "xtree": "cpp",
     "xutility": "cpp",
     "iostream": "cpp",
-    "fstream": "cpp"
+    "fstream": "cpp",
+    "codecvt": "cpp"
   }
 }
