@@ -145,33 +145,33 @@ void ivedimas(std::map<std::string, int> &zodziai, std::map<std::string, std::ve
     }
 }
 
-void zodziuIsvedimas(std::map<std::string, int> zodziai, std::ostream &out1)
+void zodziuIsvedimas(std::map<std::string, int> zodziai, std::ostream &out)
 {
     for (auto z : zodziai)
     {
         if (z.second > 1)
-            out1 << z.first << " " << z.second << std::endl;
+            out << z.first << " " << z.second << std::endl;
     }
 }
 
-void crossReference(std::map<std::string, std::vector<int>> vietos, std::ostream &out2){
+void crossReference(std::map<std::string, std::vector<int>> vietos, std::ostream &out){
 
     for (auto v : vietos)
     {
-        out2 << v.first << " | ";
+        out << v.first << " | ";
         for (int i = 0; i < v.second.size(); i++)
         {
             if (i != 0)
-                out2 << ", ";
-            out2 << v.second[i] << " eil.";
+                out << ", ";
+            out << v.second[i] << " eil.";
         }
-        out2 << std::endl;
+        out << std::endl;
     }
 }
 
-void nuoroduIsvedimas(std::vector<std::string> url,std::ostream &out3){
+void nuoroduIsvedimas(std::vector<std::string> url,std::ostream &out){
     for (auto u : url)
     {
-        out3 << u << std::endl;
+        out << u << std::endl;
     }
 }
