@@ -18,25 +18,14 @@ bool zodziuTikrinimas(char simbolis)
     }
     return false;
 }
-/*
-std::string zodzioTaisymas(std::string & zodis)
-{
-    std::locale loc("lt_LT.UTF-8");
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::wstring wzodis = converter.from_bytes(zodis);
-    std::wstring wpataisytas;
-    for (auto c : wzodis)
-    {
-        if (isalpha(c, loc))
-        {
-            wpataisytas += toupper(c);
-        }
-    }
-    return converter.to_bytes(wpataisytas);
-}*/
 
-bool arURL(std::string &zodis, std::stringstream &buferis)
+bool arURL(std::string &zodis)
 {
+    std::stringstream buferis;
+    std::ifstream fin("tlds-alpha-by-domain.txt");
+    buferis << fin.rdbuf();
+    fin.close();
+
     std::string domain, url;
     std::vector<std::string> galimiDomains;
     bool arTesti = true;
@@ -120,13 +109,16 @@ void ivedimas(std::map<std::string, int> &zodziai, std::map<std::string, std::ve
     }
 }
 
-void isvedimas(std::map<std::string, int> zodziai, std::map<std::string, std::vector<int>> vietos, std::vector<std::string> url, std::ostream &out1, std::ostream &out2, std::ostream &out3)
+void zodziuIsvedimas(std::map<std::string, int> zodziai, std::ostream &out1)
 {
     for (auto z : zodziai)
     {
         if (z.second > 1)
             out1 << z.first << " " << z.second << std::endl;
     }
+}
+
+void crossReference(std::map<std::string, std::vector<int>> vietos, std::ostream &out2){
 
     for (auto v : vietos)
     {
@@ -139,7 +131,9 @@ void isvedimas(std::map<std::string, int> zodziai, std::map<std::string, std::ve
         }
         out2 << std::endl;
     }
+}
 
+void nuoroduIsvedimas(std::vector<std::string> url,std::ostream &out3){
     for (auto u : url)
     {
         out3 << u << std::endl;
@@ -150,23 +144,25 @@ int main()
 {
     std::locale::global(std::locale("lt_LT.UTF-8"));
 
-    std::ofstream out1("zodziai.txt");
-    std::ofstream out2("cross-reference.txt");
-    std::ofstream out3("url.txt");
-
-    out1.imbue(std::locale());
-    out2.imbue(std::locale());
-    out3.imbue(std::locale());
-
+    std::ofstream out;
     std::map<std::string, int> zodziai{};
     std::map<std::string, std::vector<int>> vietos;
     std::vector<std::string> linkai;
-    std::stringstream buferis;
-
-    std::ifstream fin("tlds-alpha-by-domain.txt");
-    buferis << fin.rdbuf();
-    fin.close();
 
     ivedimas(zodziai, vietos, linkai);
-    isvedimas(zodziai, vietos, linkai, out1, out2, out3);
+    
+    out.open("zodziai.txt");
+    out.imbue(std::locale());
+    zodziuIsvedimas(zodziai, out);
+    out.close();
+
+    out.open("cross-reference.txt");
+    out.imbue(std::locale());
+    crossReference(vietos, out);
+    out.close();
+
+    out.open("url.txt");
+    out.imbue(std::locale());
+    nuoroduIsvedimas(linkai, out);
+    out.close();
 }
