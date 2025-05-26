@@ -1,4 +1,4 @@
-#include "funkcijos.h"
+#include "../include/funkcijos.h"
 bool zodziuTikrinimas(char simbolis)
 {
     std::string tinkami = "aąbcčdeęėfghiyįjklmnoprsštuųūvzžAĄBCČDEĘĖFGHIĮYJKLMNOPRSŠTUŲŪVZŽ";
