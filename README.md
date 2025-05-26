@@ -11,3 +11,5 @@ Tai programa, kuri nuskaito pasirinktą failą iš repozitorijos, suskaičiuoja,
 5. Paleisti naudojant komandą "./build/Debug/main.exe"
 
 Prieš paleidžiant programą, į repozitoriją taip pat reikia įsikelti failą, kurį norite nuskaityti. Pasirinkus nuskaitomą failą, programa rezultatus surašo į tris failus - žodžius ir jų pasikartojimų kiekius į "zodziai.txt", eilutes, kuriose yra visi žodžiai į "cross-reference.txt", o nuorodas į "url.txt"
+
+tlds-alpha-by-domain.txt failas yra reikalingas nuorodų išrinkimui, neištrinkite :)
