@@ -1,13 +1,10 @@
 #include "../include/funkcijos.h"
-bool zodziuTikrinimas(char simbolis)
+
+bool zodziuTikrinimas(wchar_t simbolis)
 {
-    std::string tinkami = "aąbcčdeęėfghiyįjklmnoprsštuųūvzžAĄBCČDEĘĖFGHIĮYJKLMNOPRSŠTUŲŪVZŽ";
-    for (auto c : tinkami)
-    {
-        if (simbolis == c)
-            return true;
-    }
-    return false;
+    std::string netinkami = "–„′−“";
+    if(!ispunct(simbolis)&&!isdigit(simbolis) && netinkami.find(simbolis) == std::string::npos) return true;
+    else return false;
 }
 
 bool arURL(std::string &zodis)
@@ -27,13 +24,13 @@ bool arURL(std::string &zodis)
         if (rasyti == true && (zodis[i] == '/' || zodis[i] == '.' || i + 1 == zodis.length()))
         {
             if (i + 1 == zodis.length())
-                domain += toupper(zodis[i]);
+                domain += towupper(zodis[i]);
             rasyti = false;
             galimiDomains.push_back(domain);
             domain.clear();
         }
         if (rasyti == true)
-            domain += toupper(zodis[i]);
+            domain += towupper(zodis[i]);
         if (zodis[i] == '.')
         {
             rasyti = true;
@@ -123,11 +120,11 @@ void ivedimas(std::map<std::string, int> &zodziai, std::map<std::string, std::ve
             else
             {
                 std::string pataisytasZodis;
-                for (auto c : zodis)
+                for (wchar_t c : zodis)
                 {
                     if (zodziuTikrinimas(c))
                     {
-                        pataisytasZodis += toupper(c);
+                        pataisytasZodis += towupper(c);
                     }
                 }
                 if (zodziai.find(pataisytasZodis) != zodziai.end())
