@@ -2,20 +2,20 @@
 
 bool zodziuTikrinimas(wchar_t simbolis)
 {
-    std::string netinkami = "–„′−“";
-    if(!ispunct(simbolis)&&!isdigit(simbolis) && netinkami.find(simbolis) == std::string::npos) return true;
+   // std::wstring netinkami = L"–„′−“";&& netinkami.find(simbolis)== std::wstring::npos
+    if(!iswpunct(simbolis)&&!iswdigit(simbolis)  ) return true;
     else return false;
 }
 
-bool arURL(std::string &zodis)
+bool arURL(std::wstring &zodis)
 {
-    std::stringstream buferis;
+    std::wstringstream buferis;
     std::ifstream fin("tlds-alpha-by-domain.txt");
     buferis << fin.rdbuf();
     fin.close();
 
-    std::string domain, url;
-    std::vector<std::string> galimiDomains;
+    std::wstring domain, url;
+    std::vector<std::wstring> galimiDomains;
     bool arTesti = true;
     bool rasyti = false;
 
@@ -98,28 +98,29 @@ std::string failoPasirinkimas(std::string klausimas)
     return failuPavadinimai[failoNumeris - 1];
 }
 
-void ivedimas(std::map<std::string, int> &zodziai, std::map<std::string, std::vector<int>> &vietos, std::vector<std::string> &linkai)
+void ivedimas(std::map<std::wstring, int> &zodziai, std::map<std::wstring, std::vector<int>> &vietos, std::vector<std::wstring> &linkai)
 {
-    std::ifstream fin;
+    std::wifstream fin;
     fin.open(failoPasirinkimas("Kuri faila noretumete nuskaityti?"));
-    std::stringstream buferis;
+    std::wstringstream buferis;
     buferis << fin.rdbuf();
     fin.close();
 
-    std::string eilute, zodis;
+    std::wstring eilute, zodis;
     int eilCount = 0;
 
     while (getline(buferis, eilute))
     {
         eilCount++;
-        std::istringstream is(eilute);
+        std::wstringstream is(eilute);
+        
         while (is >> zodis)
         {
             if (arURL(zodis))
                 linkai.push_back(zodis);
             else
             {
-                std::string pataisytasZodis;
+                std::wstring pataisytasZodis;
                 for (wchar_t c : zodis)
                 {
                     if (zodziuTikrinimas(c))
@@ -132,7 +133,7 @@ void ivedimas(std::map<std::string, int> &zodziai, std::map<std::string, std::ve
                     zodziai[pataisytasZodis]++;
                     vietos[pataisytasZodis].push_back(eilCount);
                 }
-                else if (pataisytasZodis != "")
+                else if (!pataisytasZodis.empty())
                 {
                     zodziai.insert({pataisytasZodis, 1});
                     vietos.insert({pataisytasZodis, {eilCount}});
@@ -142,7 +143,7 @@ void ivedimas(std::map<std::string, int> &zodziai, std::map<std::string, std::ve
     }
 }
 
-void zodziuIsvedimas(std::map<std::string, int> zodziai, std::ostream &out)
+void zodziuIsvedimas(std::map<std::wstring, int> zodziai, std::wostream &out)
 {
     for (auto z : zodziai)
     {
@@ -151,7 +152,7 @@ void zodziuIsvedimas(std::map<std::string, int> zodziai, std::ostream &out)
     }
 }
 
-void crossReference(std::map<std::string, std::vector<int>> vietos, std::ostream &out){
+void crossReference(std::map<std::wstring, std::vector<int>> vietos, std::wostream &out){
 
     for (auto v : vietos)
     {
@@ -166,7 +167,7 @@ void crossReference(std::map<std::string, std::vector<int>> vietos, std::ostream
     }
 }
 
-void nuoroduIsvedimas(std::vector<std::string> url,std::ostream &out){
+void nuoroduIsvedimas(std::vector<std::wstring> url,std::wostream &out){
     for (auto u : url)
     {
         out << u << std::endl;

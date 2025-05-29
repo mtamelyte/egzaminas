@@ -3,12 +3,12 @@
 int main()
 {
     std::locale::global(std::locale("lt_LT.UTF-8"));
-    std::ofstream out;
+    std::wofstream out;
     out.imbue(std::locale());
 
-    std::map<std::string, int> zodziai{};
-    std::map<std::string, std::vector<int>> vietos;
-    std::vector<std::string> linkai;
+    std::map<std::wstring, int> zodziai{};
+    std::map<std::wstring, std::vector<int>> vietos;
+    std::vector<std::wstring> linkai;
 
     ivedimas(zodziai, vietos, linkai);
     
